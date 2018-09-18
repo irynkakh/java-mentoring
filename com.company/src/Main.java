@@ -8,19 +8,27 @@ public class Main {
         int[] randomNumbers = new int[COUNT];
         String lotteryTicket = "";
         randomNumbers[0] = random.nextInt((MAX_LIMIT - MIN_LIMIT)+1) + MIN_LIMIT;
-        for (int number = 1; number < randomNumbers.length; number++) {
-            do {
-                randomNumbers[number] = random.nextInt((MAX_LIMIT - MIN_LIMIT)+1) + MIN_LIMIT;
+        label:
+        {
+            for (int number = 1; number < randomNumbers.length; number++) {
+                do {
+                    randomNumbers[number] = random.nextInt((MAX_LIMIT - randomNumbers[number - 1]) + 1) + randomNumbers[number - 1];
+                    if (randomNumbers[number - 1] == MAX_LIMIT) {
+                        break label;
+                    }
+                }
+                while (randomNumbers[number] < randomNumbers[number - 1] || randomNumbers[number - 1] == randomNumbers[number]);
             }
-            while (randomNumbers[number] < randomNumbers[number - 1] || randomNumbers[number - 1] == randomNumbers[number]);
-        }
-        for (int number = 0; number < randomNumbers.length; number++) {
-            if (randomNumbers[number] <= 9) {
-                lotteryTicket += ("0" + randomNumbers[number]);
-            } else {
-                lotteryTicket += randomNumbers[number];
+            for (int number = 0; number < randomNumbers.length; number++) {
+                if (randomNumbers[number] <= 9) {
+                    lotteryTicket += ("0" + randomNumbers[number]);
+                } else {
+                    lotteryTicket += randomNumbers[number];
+                }
             }
+            System.out.println(lotteryTicket);
         }
-        System.out.println(lotteryTicket);
+        System.out.println("Run program to generate one more time");
     }
+
 }
